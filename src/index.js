@@ -22,6 +22,7 @@ app.use(Loading({
 
 // 3. Model
 // Moved to router.js
+app.model(require('./models/data'));
 
 // 4. Router
 app.router(require('./router.jsx'));
