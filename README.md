@@ -1,5 +1,9 @@
-# dva-antd-starter [![Build Status](https://travis-ci.org/xlsdg/dva-antd-starter.svg?branch=master)](https://travis-ci.org/xlsdg/dva-antd-starter)
+# job attrition
 
-> Get started with Dva.js and Ant Design.
+A visualization tool to help reseach why people are quiting their job
 
-![Screen Shot](screenshot.png)
+
+## Setup
+
+1. npm install
+2. npm start
