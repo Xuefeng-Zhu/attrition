@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   connect
 } from 'dva';
-import { Select, Spin } from 'antd';
+import { Select, Spin, Switch } from 'antd';
 
 import styles from './index.less';
 
@@ -13,28 +13,42 @@ import Chart from '../components/visualization/chart'
 const { Option } = Select;
 
 function Index({
-  location, dispatch, fields, rows, selectedfields
+  location, dispatch, fields, rows, selectedfields, percent
 }) {
-  const options = fields.map(field => <Option key={field}>{field}</Option>);
-
   if (!fields) {
     return (<Spin />);
   }
 
+  const options = fields.map(field => <Option key={field.index}>{field.name}</Option>);
+
   return (
     <Main location={location}>
-      <div>
+      <div className={styles.container}>
         <Select
-          mode="multiple"
           className={styles.select}
+          mode="multiple"
           placeholder="Please select"
-          defaultValue={[]}
-          onChange={value => dispatch({ type: 'data/select', payload: { selectedfields: value } })}
+          value={selectedfields.map(field => field.index.toString())}
+          onChange={values => dispatch({ type: 'data/select', payload: { values } })}
         >
           {options}
         </Select>
 
-        <Chart rows={rows} selectedfields={selectedfields}/>
+        <Switch
+          className={styles.switch}
+          checked={percent}
+          checkedChildren="percent"
+          unCheckedChildren="count"
+          onChange={percent => dispatch({ type: 'data/toggleMode', payload: { percent } })}
+        />
+
+        <div className={styles.chart}>
+          <Chart
+            rows={rows}
+            selectedfields={selectedfields}
+            percent={percent}
+          />
+        </div>
       </div>
     </Main>
   );
@@ -45,15 +59,17 @@ Index.propTypes = {
   dispatch: PropTypes.func.isRequired,
   fields: PropTypes.array,
   rows: PropTypes.array,
-  selectedfields: PropTypes.array
+  selectedfields: PropTypes.array,
+  percent: PropTypes.bool
 };
 
 function mapStateToProps(state) {
-  const { fields, rows, selectedfields } = state.data;
+  const { fields, rows, selectedfields, percent } = state.data;
   return {
     fields,
     rows,
-    selectedfields
+    selectedfields,
+    percent
   };
 }
 
