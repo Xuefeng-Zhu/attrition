@@ -20,7 +20,7 @@ export default {
   env: {
     production: {
       multipage: true,
-      publicPath: '/dva-antd-starter/'
+      publicPath: './'
     },
     development: {
       multipage: false,
